@@ -3,63 +3,10 @@ package main
 import (
   "fmt"
   "os"
-  "log"
-  "go.i3wm.org/i3"
   "github.com/urfave/cli"
-  "github.com/BurntSushi/xgb"
-  "github.com/BurntSushi/xgb/randr"
-  "github.com/BurntSushi/xgb/xproto"
+  "i3-utils/xrandr"
+  "i3-utils/i3"
 )
-
-var (
-  xgbConn *xgb.Conn
-)
-
-func xinit() {
-  var err error
-  xgbConn, err = xgb.NewConn()
-  if err != nil {
-    log.Fatal(err)
-  }
-
-  err = randr.Init(xgbConn)
-  if err != nil {
-    log.Fatal(err)
-  }
-}
-
-func getOutputConfiguration() map[string]bool {
-  config := make(map[string]bool)
-
-  root := xproto.Setup(xgbConn).DefaultScreen(xgbConn).Root
-  resources, err := randr.GetScreenResources(xgbConn, root).Reply()
-
-  if err != nil {
-    log.Fatal(err)
-  }
-
-  for _, output := range resources.Outputs {
-    info, err := randr.GetOutputInfo(xgbConn, output, 0).Reply()
-    if err != nil {
-      log.Fatal(err)
-    }
-
-    config[string(info.Name)] = info.Connection == randr.ConnectionConnected
-  }
-
-  return config
-}
-
-func UpdateWorkspaces(workspace, display string) error {
-  command := fmt.Sprintf("workspace %s; move workspace to %s", workspace, display)
-  _, err := i3.RunCommand(command)
-
-  if err != nil {
-    return err
-  }
-
-  return nil
-}
 
 func main() {
   app := cli.NewApp()
@@ -67,7 +14,7 @@ func main() {
   app.Usage = "Utilities for the i3wm"
   app.Version = "1.0.0"
 
-  xinit()
+  xrandr.Init()
 
   app.Commands = []cli.Command{
     {
@@ -80,7 +27,7 @@ func main() {
         }
         workspace := c.Args().Get(0)
         display := c.Args().Get(1)
-        return UpdateWorkspaces(workspace, display)
+        return i3.MoveWorkspace(workspace, display)
       },
     },
     {
@@ -90,7 +37,7 @@ func main() {
         {
           Name: "all",
           Action: func(c *cli.Context) {
-            for output, status := range getOutputConfiguration() {
+            for output, status := range xrandr.Outputs() {
               fmt.Printf("%-10s %v\n", output, status)
             }
           },
@@ -98,7 +45,7 @@ func main() {
         {
           Name: "active",
           Action: func(c *cli.Context) {
-            for output, status := range getOutputConfiguration() {
+            for output, status := range xrandr.Outputs() {
               if status == true {
                 fmt.Println(output)
               }
@@ -108,7 +55,7 @@ func main() {
         {
           Name: "inactive",
           Action: func(c *cli.Context) {
-            for output, status := range getOutputConfiguration() {
+            for output, status := range xrandr.Outputs() {
               if status == false {
                 fmt.Println(output)
               }
