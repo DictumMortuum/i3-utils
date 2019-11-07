@@ -10,7 +10,7 @@ USAGE:
    i3-utils [global options] command [command options] [arguments...]
 
 VERSION:
-   1.0.0
+   2.0.0
 
 COMMANDS:
    move     Move a workspace to an output

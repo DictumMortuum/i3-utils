@@ -8,11 +8,27 @@ import (
   "i3-utils/i3"
 )
 
+func all(output string, status bool) {
+  fmt.Printf("%-10s %v\n", output, status)
+}
+
+func active(output string, status bool) {
+  if status == true {
+    fmt.Println(output)
+  }
+}
+
+func inactive(output string, status bool) {
+  if status == false {
+    fmt.Println(output)
+  }
+}
+
 func main() {
   app := cli.NewApp()
   app.Name = "i3-util"
   app.Usage = "Utilities for the i3wm"
-  app.Version = "1.0.0"
+  app.Version = "2.0.0"
 
   xrandr.Init()
 
@@ -37,29 +53,19 @@ func main() {
         {
           Name: "all",
           Action: func(c *cli.Context) {
-            for output, status := range xrandr.Outputs() {
-              fmt.Printf("%-10s %v\n", output, status)
-            }
+            xrandr.Outputs(all)
           },
         },
         {
           Name: "active",
           Action: func(c *cli.Context) {
-            for output, status := range xrandr.Outputs() {
-              if status == true {
-                fmt.Println(output)
-              }
-            }
+            xrandr.Outputs(active)
           },
         },
         {
           Name: "inactive",
           Action: func(c *cli.Context) {
-            for output, status := range xrandr.Outputs() {
-              if status == false {
-                fmt.Println(output)
-              }
-            }
+            xrandr.Outputs(inactive)
           },
         },
       },
