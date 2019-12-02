@@ -1,8 +1,11 @@
-install: build
-	cp i3-utils ~/.local/bin/
+PREFIX=/usr/local
 
 build:
 	go build
 
+install: build
+	mkdir -p $(PREFIX)/bin
+	cp -f i3-utils $(PREFIX)/bin
+
 uninstall:
-	rm ~/.local/bin/i3-utils
+	rm -f $(PREFIX)/bin

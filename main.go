@@ -4,8 +4,8 @@ import (
   "fmt"
   "os"
   "github.com/urfave/cli"
-  "i3-utils/xrandr"
-  "i3-utils/i3"
+  "github.com/DictumMortuum/i3-utils/xrandr"
+  "github.com/DictumMortuum/i3-utils/i3"
 )
 
 func all(output string, status bool) {

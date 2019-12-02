@@ -6,7 +6,7 @@ import (
   "github.com/BurntSushi/xgb"
   "github.com/BurntSushi/xgb/randr"
   "github.com/BurntSushi/xgb/xproto"
-  "i3-utils/i3"
+  "github.com/DictumMortuum/i3-utils/i3"
 )
 
 var (

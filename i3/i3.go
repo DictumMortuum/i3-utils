@@ -3,7 +3,7 @@ package i3
 import (
   "fmt"
   "errors"
-  "go.i3wm.org/i3"
+  "go.i3wm.org/i3/v4"
 )
 
 func MoveWorkspace(workspace, display string) error {
