@@ -24,7 +24,7 @@ func Init() {
   err = randr.Init(xgbConn)
   if err != nil {
     log.Fatal(err)
-  }
+	}
 }
 
 func Refresh() {

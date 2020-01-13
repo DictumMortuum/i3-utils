@@ -45,6 +45,18 @@ func main() {
         display := c.Args().Get(1)
         return i3.MoveWorkspace(workspace, display)
       },
+		},
+    {
+      Name: "next",
+      Action: func(c *cli.Context) {
+				i3.Next()
+      },
+		},
+    {
+      Name: "prev",
+      Action: func(c *cli.Context) {
+				i3.Prev()
+      },
     },
     {
       Name: "display",
