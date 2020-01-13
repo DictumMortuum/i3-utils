@@ -1,6 +1,7 @@
 PREFIX=/usr/local
 
 build:
+	gofmt -w .
 	go build
 
 install: build

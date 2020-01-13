@@ -1,46 +1,52 @@
 package i3
 
 import (
-  "fmt"
 	"errors"
-  "go.i3wm.org/i3/v4"
+	"fmt"
+	"go.i3wm.org/i3/v4"
 )
 
 func MoveWorkspace(workspace, display string) error {
-  command := fmt.Sprintf("workspace %s; move workspace to %s", workspace, display)
-  _, err := i3.RunCommand(command)
-  return err
+	command := fmt.Sprintf("workspace %s; move workspace to %s", workspace, display)
+	_, err := i3.RunCommand(command)
+	return err
+}
+
+func MoveContainer(workspaceNum int64) error {
+	command := fmt.Sprintf("move container to workspace %d", workspaceNum)
+	_, err := i3.RunCommand(command)
+	return err
 }
 
 func SetCurrentWorkspace(workspaceNum int64) error {
-  command := fmt.Sprintf("workspace %d", workspaceNum)
-  _, err := i3.RunCommand(command)
-  return err
+	command := fmt.Sprintf("workspace %d", workspaceNum)
+	_, err := i3.RunCommand(command)
+	return err
 }
 
 func GetCurrentWorkspaceNumber() (int64, error) {
-  ws, err := i3.GetWorkspaces()
-  if err != nil {
-    return -1, err
-  }
+	ws, err := i3.GetWorkspaces()
+	if err != nil {
+		return -1, err
+	}
 
-  for _, w := range ws {
-    if w.Focused {
-      return w.Num, nil
-    }
-  }
+	for _, w := range ws {
+		if w.Focused {
+			return w.Num, nil
+		}
+	}
 
-  return -1, errors.New("Cant find current workspace")
+	return -1, errors.New("Cant find current workspace")
 }
 
 func getFocused(ws []i3.Workspace) i3.Workspace {
 	var ret i3.Workspace
 
 	for _, w := range ws {
-    if w.Focused {
+		if w.Focused {
 			ret = w
 			break
-    }
+		}
 	}
 
 	return ret
@@ -49,10 +55,10 @@ func getFocused(ws []i3.Workspace) i3.Workspace {
 func getMaxWorkspace(ws []i3.Workspace) int64 {
 	max := ws[0].Num
 
-  for _, w := range ws {
-    if w.Num > max {
-      max = w.Num
-    }
+	for _, w := range ws {
+		if w.Num > max {
+			max = w.Num
+		}
 	}
 
 	return max
@@ -73,32 +79,30 @@ func createWorkspaceHashmap(ws []i3.Workspace) [100]int {
 	return hm
 }
 
-func Next() {
+func Next(fn func(int64) error) {
 	var i int64
-  ws, _ := i3.GetWorkspaces()
+	ws, _ := i3.GetWorkspaces()
 	hm := createWorkspaceHashmap(ws)
 	pos := getFocused(ws).Num
 	length := int64(len(hm))
 
 	for i = pos + 1; i < length; i++ {
 		if hm[i] != 1 {
-			fmt.Println(hm, i)
-			SetCurrentWorkspace(i)
+			fn(i)
 			break
 		}
 	}
 }
 
-func Prev() {
+func Prev(fn func(int64) error) {
 	var i int64
-  ws, _ := i3.GetWorkspaces()
+	ws, _ := i3.GetWorkspaces()
 	hm := createWorkspaceHashmap(ws)
 	pos := getFocused(ws).Num
 
 	for i = pos - 1; i >= 0; i-- {
 		if hm[i] != 1 {
-			fmt.Println(hm, i)
-			SetCurrentWorkspace(i)
+			fn(i)
 			break
 		}
 	}
