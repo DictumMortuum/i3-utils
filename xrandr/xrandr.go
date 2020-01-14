@@ -4,9 +4,7 @@ import (
 	"github.com/BurntSushi/xgb"
 	"github.com/BurntSushi/xgb/randr"
 	"github.com/BurntSushi/xgb/xproto"
-	"github.com/DictumMortuum/i3-utils/i3"
 	"log"
-	"reflect"
 )
 
 var (
@@ -24,50 +22,6 @@ func Init() {
 	err = randr.Init(xgbConn)
 	if err != nil {
 		log.Fatal(err)
-	}
-}
-
-func Refresh() {
-	currentOutputConfiguration := getOutputConfiguration()
-
-	if reflect.DeepEqual(currentOutputConfiguration, lastOutputConfiguration) {
-		return
-	}
-
-	currentWorkspace, err := i3.GetCurrentWorkspaceNumber()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = i3.SetCurrentWorkspace(currentWorkspace)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	lastOutputConfiguration = currentOutputConfiguration
-}
-
-func ListenEvents() {
-	defer xgbConn.Close()
-
-	root := xproto.Setup(xgbConn).DefaultScreen(xgbConn).Root
-	err := randr.SelectInputChecked(xgbConn, root,
-		randr.NotifyMaskScreenChange|randr.NotifyMaskCrtcChange|randr.NotifyMaskOutputChange).Check()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for {
-		ev, err := xgbConn.WaitForEvent()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		switch ev.(type) {
-		case randr.ScreenChangeNotifyEvent:
-			Refresh()
-		}
 	}
 }
 

@@ -28,7 +28,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "3.0.0"
+	app.Version = "4.0.0"
 
 	xrandr.Init()
 
@@ -87,6 +87,12 @@ func main() {
 					Name: "inactive",
 					Action: func(c *cli.Context) {
 						xrandr.Outputs(inactive)
+					},
+				},
+				{
+					Name: "change",
+					Action: func(c *cli.Context) {
+						xrandr.Monitors()
 					},
 				},
 			},
