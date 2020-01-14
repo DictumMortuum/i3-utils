@@ -40,14 +40,13 @@ func generateXrandrFile(outputs []string) {
 	ioutil.WriteFile(self, buffer, 0700)
 }
 
-func Monitors() {
-	outputs := []string{}
+func Detect() string {
+	outputs := ActiveOutputs()
+	return getXrandrFilePath(len(outputs))
+}
 
-	for output, status := range getOutputConfiguration() {
-		if status {
-			outputs = append(outputs, output)
-		}
-	}
+func Layout() {
+	outputs := ActiveOutputs()
 
 	selection := rofi.Plain("monitors", func(in io.WriteCloser) {
 		permutations := prmt.New(prmt.StringSlice(outputs))

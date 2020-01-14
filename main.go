@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/DictumMortuum/i3-utils/i3"
 	"github.com/DictumMortuum/i3-utils/xrandr"
 	"github.com/urfave/cli"
@@ -56,19 +57,39 @@ func main() {
 				{
 					Name: "all",
 					Action: func(c *cli.Context) {
-						xrandr.AllOutputs()
+						tmp := xrandr.AllOutputs()
+
+						for _, output := range tmp {
+							fmt.Printf("%-10s\n", output)
+						}
 					},
 				},
 				{
 					Name: "active",
 					Action: func(c *cli.Context) {
-						xrandr.ActiveOutputs()
+						tmp := xrandr.ActiveOutputs()
+
+						for _, output := range tmp {
+							fmt.Println(output)
+						}
+					},
+				},
+			},
+		},
+		{
+			Name: "layout",
+			Subcommands: []cli.Command{
+				{
+					Name: "detect",
+					Action: func(c *cli.Context) {
+						tmp := xrandr.Detect()
+						fmt.Println(tmp)
 					},
 				},
 				{
 					Name: "change",
 					Action: func(c *cli.Context) {
-						xrandr.Monitors()
+						xrandr.Layout()
 					},
 				},
 			},
