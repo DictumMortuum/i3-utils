@@ -1,28 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"github.com/DictumMortuum/i3-utils/i3"
 	"github.com/DictumMortuum/i3-utils/xrandr"
 	"github.com/urfave/cli"
 	"os"
 )
-
-func all(output string, status bool) {
-	fmt.Printf("%-10s %v\n", output, status)
-}
-
-func active(output string, status bool) {
-	if status == true {
-		fmt.Println(output)
-	}
-}
-
-func inactive(output string, status bool) {
-	if status == false {
-		fmt.Println(output)
-	}
-}
 
 func main() {
 	app := cli.NewApp()
@@ -68,25 +51,18 @@ func main() {
 			},
 		},
 		{
-			Name:  "display",
-			Usage: "Show display outputs",
+			Name: "display",
 			Subcommands: []cli.Command{
 				{
 					Name: "all",
 					Action: func(c *cli.Context) {
-						xrandr.Outputs(all)
+						xrandr.AllOutputs()
 					},
 				},
 				{
 					Name: "active",
 					Action: func(c *cli.Context) {
-						xrandr.Outputs(active)
-					},
-				},
-				{
-					Name: "inactive",
-					Action: func(c *cli.Context) {
-						xrandr.Outputs(inactive)
+						xrandr.ActiveOutputs()
 					},
 				},
 				{

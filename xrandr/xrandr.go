@@ -1,6 +1,7 @@
 package xrandr
 
 import (
+	"fmt"
 	"github.com/BurntSushi/xgb"
 	"github.com/BurntSushi/xgb/randr"
 	"github.com/BurntSushi/xgb/xproto"
@@ -47,8 +48,26 @@ func getOutputConfiguration() map[string]bool {
 	return config
 }
 
-func Outputs(fn func(string, bool)) {
+func AllOutputs() []string {
+	ret := []string{}
+
 	for output, status := range getOutputConfiguration() {
-		fn(output, status)
+		fmt.Printf("%-10s %v\n", output, status)
+		ret = append(ret, output)
 	}
+
+	return ret
+}
+
+func ActiveOutputs() []string {
+	ret := []string{}
+
+	for output, status := range getOutputConfiguration() {
+		if status {
+			fmt.Println(output)
+			ret = append(ret, output)
+		}
+	}
+
+	return ret
 }
