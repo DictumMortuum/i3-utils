@@ -12,7 +12,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "5.0.0"
+	app.Version = "5.0.1"
 
 	xrandr.Init()
 

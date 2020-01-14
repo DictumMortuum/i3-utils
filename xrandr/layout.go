@@ -17,7 +17,7 @@ func getXrandrFilePath(i int) string {
 }
 
 func generateXrandrConfig(outputs []string) string {
-	buf := bytes.NewBufferString("#!/bin/bash")
+	buf := bytes.NewBufferString("#!/bin/bash\n")
 	fmt.Fprintf(buf, "xrandr --setprovideroutputsource modesetting NVIDIA-0\n")
 
 	for i, m := range outputs {
