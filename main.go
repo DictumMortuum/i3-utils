@@ -12,7 +12,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "5.0.1"
+	app.Version = "6.0.0"
 
 	xrandr.Init()
 
@@ -90,6 +90,13 @@ func main() {
 					Name: "change",
 					Action: func(c *cli.Context) {
 						xrandr.Layout()
+					},
+				},
+				{
+					Name: "conky",
+					Action: func(c *cli.Context) {
+						tmp := xrandr.GetXineramaConfiguration()
+						fmt.Println(tmp[len(tmp)-1])
 					},
 				},
 			},

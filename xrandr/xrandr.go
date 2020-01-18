@@ -3,13 +3,14 @@ package xrandr
 import (
 	"github.com/BurntSushi/xgb"
 	"github.com/BurntSushi/xgb/randr"
+	"github.com/BurntSushi/xgb/xinerama"
 	"github.com/BurntSushi/xgb/xproto"
 	"log"
+	"sort"
 )
 
 var (
-	xgbConn                 *xgb.Conn
-	lastOutputConfiguration map[string]bool
+	xgbConn *xgb.Conn
 )
 
 func Init() {
@@ -23,6 +24,39 @@ func Init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func GetXineramaConfiguration() []int {
+	err := xinerama.Init(xgbConn)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	reply, err := xinerama.QueryScreens(xgbConn).Reply()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	type Monitor struct {
+		Order int
+		XOrg  int16
+	}
+
+	monitors := []Monitor{}
+
+	for i, monitor := range reply.ScreenInfo {
+		monitors = append(monitors, Monitor{i, monitor.XOrg})
+	}
+
+	sort.Slice(monitors, func(i, j int) bool { return monitors[i].XOrg < monitors[j].XOrg })
+
+	ret := []int{}
+
+	for _, monitor := range monitors {
+		ret = append(ret, monitor.Order)
+	}
+
+	return ret
 }
 
 func getOutputConfiguration() map[string]bool {

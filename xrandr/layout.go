@@ -8,8 +8,14 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"regexp"
 	"strings"
 )
+
+func isLaptopScreen(output string) bool {
+	re := regexp.MustCompile(`eDP`)
+	return re.MatchString(output)
+}
 
 func getXrandrFilePath(i int) string {
 	home := os.Getenv("HOME")
@@ -22,13 +28,11 @@ func generateXrandrConfig(outputs []string) string {
 
 	for i, m := range outputs {
 		if i == 0 {
-			fmt.Fprintf(buf, "xrandr --output %s --auto\n", m)
+			fmt.Fprintf(buf, "xrandr --output %s --auto --primary\n", m)
 		} else {
 			fmt.Fprintf(buf, "xrandr --output %s --auto --right-of %s\n", m, outputs[i-1])
 		}
 	}
-
-	fmt.Fprintf(buf, "xrandr --output %s --primary\n", outputs[len(outputs)-1])
 
 	return buf.String()
 }
