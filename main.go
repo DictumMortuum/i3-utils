@@ -12,7 +12,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "6.0.0"
+	app.Version = "7.0.0"
 
 	xrandr.Init()
 
@@ -23,13 +23,30 @@ func main() {
 				{
 					Name: "next",
 					Action: func(c *cli.Context) {
-						i3.Next(i3.SetCurrentWorkspace)
+						i3.Next(i3.SetCurrentWorkspace, i3.SameScreen)
 					},
 				},
 				{
 					Name: "prev",
 					Action: func(c *cli.Context) {
-						i3.Prev(i3.SetCurrentWorkspace)
+						i3.Prev(i3.SetCurrentWorkspace, i3.SameScreen)
+					},
+				},
+			},
+		},
+		{
+			Name: "create",
+			Subcommands: []cli.Command{
+				{
+					Name: "next",
+					Action: func(c *cli.Context) {
+						i3.Next(i3.SetCurrentWorkspace, i3.AnyScreen)
+					},
+				},
+				{
+					Name: "prev",
+					Action: func(c *cli.Context) {
+						i3.Prev(i3.SetCurrentWorkspace, i3.AnyScreen)
 					},
 				},
 			},
@@ -40,13 +57,13 @@ func main() {
 				{
 					Name: "next",
 					Action: func(c *cli.Context) {
-						i3.Next(i3.MoveContainer)
+						i3.Next(i3.MoveContainer, i3.SameScreen)
 					},
 				},
 				{
 					Name: "prev",
 					Action: func(c *cli.Context) {
-						i3.Prev(i3.MoveContainer)
+						i3.Prev(i3.MoveContainer, i3.SameScreen)
 					},
 				},
 			},
