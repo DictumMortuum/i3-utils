@@ -12,9 +12,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "7.0.2"
-
-	xrandr.Init()
+	app.Version = "7.0.3"
 
 	app.Commands = []cli.Command{
 		{
@@ -74,6 +72,7 @@ func main() {
 				{
 					Name: "all",
 					Action: func(c *cli.Context) {
+						xrandr.Init()
 						tmp := xrandr.AllOutputs()
 
 						for _, output := range tmp {
@@ -84,6 +83,7 @@ func main() {
 				{
 					Name: "active",
 					Action: func(c *cli.Context) {
+						xrandr.Init()
 						tmp := xrandr.ActiveOutputs()
 
 						for _, output := range tmp {
@@ -99,6 +99,7 @@ func main() {
 				{
 					Name: "detect",
 					Action: func(c *cli.Context) {
+						xrandr.Init()
 						tmp := xrandr.Detect()
 						fmt.Println(tmp)
 					},
@@ -106,12 +107,14 @@ func main() {
 				{
 					Name: "change",
 					Action: func(c *cli.Context) {
+						xrandr.Init()
 						xrandr.Layout()
 					},
 				},
 				{
 					Name: "conky",
 					Action: func(c *cli.Context) {
+						xrandr.Init()
 						tmp := xrandr.GetXineramaConfiguration()
 						fmt.Println(tmp[len(tmp)-1])
 					},
