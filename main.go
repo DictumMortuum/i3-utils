@@ -12,7 +12,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "7.0.1"
+	app.Version = "7.0.2"
 
 	xrandr.Init()
 
@@ -40,13 +40,13 @@ func main() {
 				{
 					Name: "next",
 					Action: func(c *cli.Context) {
-						i3.Next(i3.SetCurrentWorkspace, i3.AnyScreen)
+						i3.Next(i3.SetCurrentWorkspace, i3.EmptyWorkspace)
 					},
 				},
 				{
 					Name: "prev",
 					Action: func(c *cli.Context) {
-						i3.Prev(i3.SetCurrentWorkspace, i3.AnyScreen)
+						i3.Prev(i3.SetCurrentWorkspace, i3.EmptyWorkspace)
 					},
 				},
 			},

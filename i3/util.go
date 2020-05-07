@@ -34,10 +34,10 @@ func createWorkspaceHashmap(ws []i3.Workspace) [100]int {
 	output := GetFocused(ws).Output
 
 	for _, w := range ws {
-		hm[w.Num] += 1
+		hm[w.Num] = 1
 
 		if w.Output == output {
-			hm[w.Num] += 1
+			hm[w.Num] = 2
 		}
 	}
 

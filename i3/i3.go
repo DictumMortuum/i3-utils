@@ -4,6 +4,10 @@ import (
 	"go.i3wm.org/i3/v4"
 )
 
+func EmptyWorkspace(i int) bool {
+	return i == 0
+}
+
 func AnyScreen(i int) bool {
 	return i != 1
 }
