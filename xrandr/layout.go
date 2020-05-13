@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"regexp"
 	"strings"
 )
@@ -61,4 +62,33 @@ func Layout() {
 	})
 
 	generateXrandrFile(strings.Split(selection, " "))
+}
+
+func DynamicLayout() {
+	outputs := ActiveOutputs()
+
+	output := rofi.Plain("monitors", func(in io.WriteCloser) {
+		for _, tmp := range outputs {
+			fmt.Fprintln(in, tmp)
+		}
+	})
+
+	modes := [2]string{"off", "on"}
+
+	mode := rofi.Plain("mode", func(in io.WriteCloser) {
+		for _, tmp := range modes {
+			fmt.Fprintln(in, tmp)
+		}
+	})
+
+	if mode == "off" {
+		exec.Command("xrandr", "--output", output, "--off").Run()
+	} else {
+		rightof := rofi.Plain("monitors", func(in io.WriteCloser) {
+			for _, tmp := range outputs {
+				fmt.Fprintln(in, tmp)
+			}
+		})
+		exec.Command("xrandr", "--output", output, "--auto", "--right-of", rightof).Run()
+	}
 }

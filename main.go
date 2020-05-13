@@ -12,7 +12,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "7.0.3"
+	app.Version = "7.1.0"
 
 	app.Commands = []cli.Command{
 		{
@@ -109,6 +109,13 @@ func main() {
 					Action: func(c *cli.Context) {
 						xrandr.Init()
 						xrandr.Layout()
+					},
+				},
+				{
+					Name: "control",
+					Action: func(c *cli.Context) {
+						xrandr.Init()
+						xrandr.DynamicLayout()
 					},
 				},
 				{
