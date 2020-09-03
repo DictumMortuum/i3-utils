@@ -73,6 +73,10 @@ func DynamicLayout() {
 		}
 	})
 
+	if output == "" {
+		os.Exit(1)
+	}
+
 	modes := [2]string{"off", "on"}
 
 	mode := rofi.Plain("mode", func(in io.WriteCloser) {
@@ -80,6 +84,10 @@ func DynamicLayout() {
 			fmt.Fprintln(in, tmp)
 		}
 	})
+
+	if mode == "" {
+		os.Exit(1)
+	}
 
 	if mode == "off" {
 		exec.Command("xrandr", "--output", output, "--off").Run()
