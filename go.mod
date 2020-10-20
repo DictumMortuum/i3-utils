@@ -3,7 +3,7 @@ module github.com/DictumMortuum/i3-utils
 go 1.13
 
 require (
-	github.com/BurntSushi/xgb v0.0.0-20200324125942-20f126ea2843
+	github.com/BurntSushi/xgb v0.0.0-20201008132610-5f9e7b3c49cd
 	github.com/BurntSushi/xgbutil v0.0.0-20190907113008-ad855c713046 // indirect
 	github.com/DictumMortuum/gofi v1.0.2
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect

@@ -12,7 +12,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "7.1.1"
+	app.Version = "8.0.0"
 
 	app.Commands = []cli.Command{
 		{
@@ -67,63 +67,39 @@ func main() {
 			},
 		},
 		{
-			Name: "display",
-			Subcommands: []cli.Command{
-				{
-					Name: "all",
-					Action: func(c *cli.Context) {
-						xrandr.Init()
-						tmp := xrandr.AllOutputs()
-
-						for _, output := range tmp {
-							fmt.Printf("%-10s\n", output)
-						}
-					},
-				},
-				{
-					Name: "active",
-					Action: func(c *cli.Context) {
-						xrandr.Init()
-						tmp := xrandr.ActiveOutputs()
-
-						for _, output := range tmp {
-							fmt.Println(output)
-						}
-					},
-				},
-			},
-		},
-		{
 			Name: "layout",
 			Subcommands: []cli.Command{
 				{
-					Name: "detect",
+					Name: "dock",
 					Action: func(c *cli.Context) {
-						xrandr.Init()
-						tmp := xrandr.Detect()
-						fmt.Println(tmp)
+						xrandr.Heads().Dock()
 					},
 				},
 				{
-					Name: "change",
+					Name: "restore",
 					Action: func(c *cli.Context) {
-						xrandr.Init()
-						xrandr.Layout()
+						if c.Bool("full") {
+							xrandr.Heads().Restore()
+						} else {
+							xrandr.Heads().Active([]string{"--auto"})
+						}
+					},
+					Flags: []cli.Flag{
+						cli.BoolFlag{
+							Name: "full",
+						},
 					},
 				},
 				{
-					Name: "control",
+					Name: "diablo",
 					Action: func(c *cli.Context) {
-						xrandr.Init()
-						xrandr.DynamicLayout()
+						xrandr.Heads().Active([]string{"--mode", "800x600"})
 					},
 				},
 				{
-					Name: "conky",
+					Name: "list",
 					Action: func(c *cli.Context) {
-						xrandr.Init()
-						tmp := xrandr.GetXineramaConfiguration()
-						fmt.Println(tmp[len(tmp)-1])
+						fmt.Print(xrandr.Heads())
 					},
 				},
 			},
