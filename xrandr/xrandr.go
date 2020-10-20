@@ -110,18 +110,23 @@ func (hs heads) Dock() {
 }
 
 func (hs heads) Restore() {
+	outputs := []string{}
 	args := []string{}
 
-	for i, head := range hs.heads {
-		if i == 0 {
-			args = append(args, "--output", head.output, "--auto", "--primary")
-		} else {
-			args = append(args, "--output", head.output, "--auto", "--right-of", hs.heads[i-1].output)
-		}
+	for _, head := range hs.heads {
+		outputs = append(outputs, head.output)
 	}
 
 	for _, head := range hs.off {
-		args = append(args, "--output", head, "--auto", "--right-of", hs.heads[len(hs.heads)-1].output)
+		outputs = append(outputs, head)
+	}
+
+	for i, head := range outputs {
+		if i == 0 {
+			args = append(args, "--output", head, "--auto", "--primary")
+		} else {
+			args = append(args, "--output", head, "--auto", "--right-of", outputs[i-1])
+		}
 	}
 
 	exec.Command("xrandr", args...).Run()
@@ -143,6 +148,9 @@ func (hs heads) Active(mode []string) {
 }
 
 func (hs heads) String() string {
+	log.Print(hs.disconnected)
+	log.Print(hs.off)
+
 	lines := make([]string, len(hs.heads))
 	for i, head := range hs.heads {
 		lines[i] = fmt.Sprintf("%d: %s (%d, %d) %dx%d",
