@@ -7,8 +7,13 @@ import (
 	"github.com/BurntSushi/xgb"
 	"github.com/BurntSushi/xgb/randr"
 	"github.com/BurntSushi/xgb/xproto"
+	rofi "github.com/DictumMortuum/gofi"
+	prmt "github.com/gitchander/permutation"
+	"io"
 	"log"
+	"os"
 	"os/exec"
+	"regexp"
 	"sort"
 	"strings"
 )
@@ -109,7 +114,7 @@ func (hs heads) Dock() {
 	}
 }
 
-func (hs heads) Restore() {
+func (hs heads) Restore(interactive bool) {
 	outputs := []string{}
 	args := []string{}
 
@@ -119,6 +124,22 @@ func (hs heads) Restore() {
 
 	for _, head := range hs.off {
 		outputs = append(outputs, head)
+	}
+
+	if interactive {
+		selection := rofi.Plain("monitors", func(in io.WriteCloser) {
+			permutations := prmt.New(prmt.StringSlice(outputs))
+
+			for permutations.Next() {
+				fmt.Fprintln(in, strings.Join(outputs, " "))
+			}
+		})
+
+		if selection == "" {
+			os.Exit(1)
+		}
+
+		outputs = strings.Split(selection, " ")
 	}
 
 	for i, head := range outputs {
@@ -181,4 +202,9 @@ func newHead(id randr.Output, name string, info *randr.GetCrtcInfoReply) head {
 		width:  int(info.Width),
 		height: int(info.Height),
 	}
+}
+
+func isLaptopScreen(output string) bool {
+	re := regexp.MustCompile(`eDP`)
+	return re.MatchString(output)
 }

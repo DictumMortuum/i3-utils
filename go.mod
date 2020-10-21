@@ -10,4 +10,5 @@ require (
 	github.com/gitchander/permutation v0.0.0-20181107151852-9e56b92e9909
 	github.com/urfave/cli v1.22.4
 	go.i3wm.org/i3/v4 v4.18.0
+	gopkg.in/yaml.v2 v2.2.2
 )

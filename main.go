@@ -12,7 +12,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "8.0.1"
+	app.Version = "9.0.0"
 
 	app.Commands = []cli.Command{
 		{
@@ -78,15 +78,21 @@ func main() {
 				{
 					Name: "restore",
 					Action: func(c *cli.Context) {
-						if c.Bool("full") {
-							xrandr.Heads().Restore()
+						all := c.Bool("all")
+						interactive := c.Bool("interactive")
+
+						if all || interactive {
+							xrandr.Heads().Restore(interactive)
 						} else {
 							xrandr.Heads().Active([]string{"--auto"})
 						}
 					},
 					Flags: []cli.Flag{
 						cli.BoolFlag{
-							Name: "full",
+							Name: "all",
+						},
+						cli.BoolFlag{
+							Name: "interactive",
 						},
 					},
 				},
