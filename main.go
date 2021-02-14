@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/DictumMortuum/i3-utils/i3"
+	"github.com/DictumMortuum/i3-utils/servus"
 	"github.com/DictumMortuum/i3-utils/xrandr"
 	"github.com/urfave/cli"
 	"os"
@@ -12,7 +13,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "9.0.0"
+	app.Version = "9.1.0"
 
 	app.Commands = []cli.Command{
 		{
@@ -107,6 +108,15 @@ func main() {
 					Action: func(c *cli.Context) {
 						fmt.Print(xrandr.Heads())
 					},
+				},
+			},
+		},
+		{
+			Name: "servus",
+			Subcommands: []cli.Command{
+				{
+					Name:   "router",
+					Action: servus.GetRouter,
 				},
 			},
 		},
