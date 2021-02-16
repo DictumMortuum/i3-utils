@@ -127,19 +127,24 @@ func (hs heads) Restore(interactive bool) {
 	}
 
 	if interactive {
-		selection := rofi.Plain("monitors", func(in io.WriteCloser) {
+		opts := rofi.GofiOptions{
+			Description: "monitors",
+		}
+
+		err, outputs := rofi.FromFilter(&opts, func(in io.WriteCloser) {
 			permutations := prmt.New(prmt.StringSlice(outputs))
 
 			for permutations.Next() {
 				fmt.Fprintln(in, strings.Join(outputs, " "))
 			}
 		})
-
-		if selection == "" {
-			os.Exit(1)
+		if err != nil {
+			log.Fatal(err)
 		}
 
-		outputs = strings.Split(selection, " ")
+		if len(outputs) == 0 {
+			os.Exit(1)
+		}
 	}
 
 	for i, head := range outputs {
