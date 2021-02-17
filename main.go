@@ -13,7 +13,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "9.1.1"
+	app.Version = "9.1.2"
 
 	app.Commands = []cli.Command{
 		{

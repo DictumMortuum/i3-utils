@@ -127,11 +127,13 @@ func (hs heads) Restore(interactive bool) {
 	}
 
 	if interactive {
+		var err error
+
 		opts := rofi.GofiOptions{
 			Description: "monitors",
 		}
 
-		err, outputs := rofi.FromFilter(&opts, func(in io.WriteCloser) {
+		err, outputs = rofi.FromFilter(&opts, func(in io.WriteCloser) {
 			permutations := prmt.New(prmt.StringSlice(outputs))
 
 			for permutations.Next() {
