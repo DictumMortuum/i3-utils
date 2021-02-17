@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/DictumMortuum/i3-utils/i3"
 	"github.com/DictumMortuum/i3-utils/servus"
+	"github.com/DictumMortuum/i3-utils/st"
 	"github.com/DictumMortuum/i3-utils/xrandr"
 	"github.com/urfave/cli"
 	"os"
@@ -117,6 +118,15 @@ func main() {
 				{
 					Name:   "router",
 					Action: servus.GetRouter,
+				},
+			},
+		},
+		{
+			Name: "st",
+			Subcommands: []cli.Command{
+				{
+					Name:   "read",
+					Action: st.CheckGlob,
 				},
 			},
 		},
