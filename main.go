@@ -14,7 +14,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "9.1.2"
+	app.Version = "9.2.0"
 
 	app.Commands = []cli.Command{
 		{
@@ -125,8 +125,12 @@ func main() {
 			Name: "st",
 			Subcommands: []cli.Command{
 				{
-					Name:   "read",
-					Action: st.CheckGlob,
+					Name:   "cmdout",
+					Action: st.GetCommandOutput,
+				},
+				{
+					Name:   "type",
+					Action: st.Type,
 				},
 			},
 		},
