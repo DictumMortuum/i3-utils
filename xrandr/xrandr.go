@@ -127,13 +127,11 @@ func (hs heads) Restore(interactive bool) {
 	}
 
 	if interactive {
-		var err error
-
 		opts := rofi.GofiOptions{
 			Description: "monitors",
 		}
 
-		err, outputs = rofi.FromFilter(&opts, func(in io.WriteCloser) {
+		err, selection := rofi.FromFilter(&opts, func(in io.WriteCloser) {
 			permutations := prmt.New(prmt.StringSlice(outputs))
 
 			for permutations.Next() {
@@ -144,9 +142,12 @@ func (hs heads) Restore(interactive bool) {
 			log.Fatal(err)
 		}
 
-		if len(outputs) == 0 {
+		if len(selection) == 0 {
 			os.Exit(1)
 		}
+
+		// I don't know why you would want to select more than one here, but I'm not going to entertain you.
+		outputs = strings.Split(selection[0], " ")
 	}
 
 	for i, head := range outputs {
