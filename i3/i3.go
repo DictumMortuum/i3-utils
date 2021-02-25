@@ -16,6 +16,10 @@ func SameScreen(i int) bool {
 	return i == 2
 }
 
+func NonEmptyScreen(i int) bool {
+	return i >= 1
+}
+
 func Next(fn func(int64) error, skip func(int) bool) {
 	var i int64
 	ws, _ := i3.GetWorkspaces()

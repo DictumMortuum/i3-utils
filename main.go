@@ -14,9 +14,15 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "9.3.0"
+	app.Version = "9.4.0"
 
 	app.Commands = []cli.Command{
+		{
+			Name: "tab",
+			Action: func(c *cli.Context) {
+				i3.Next(i3.SetCurrentWorkspace, i3.NonEmptyScreen)
+			},
+		},
 		{
 			Name: "focus",
 			Subcommands: []cli.Command{
