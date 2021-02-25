@@ -14,7 +14,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "9.2.1"
+	app.Version = "9.3.0"
 
 	app.Commands = []cli.Command{
 		{
@@ -127,6 +127,11 @@ func main() {
 				{
 					Name:   "cmdout",
 					Action: st.GetCommandOutput,
+					Flags: []cli.Flag{
+						cli.BoolFlag{
+							Name: "command_only, o",
+						},
+					},
 				},
 				{
 					Name:   "type",

@@ -47,6 +47,19 @@ func getPrompts(buffer []string) []string {
 	return rs
 }
 
+func stripPrompt(line string) string {
+	if isLocalCommand(line) {
+		return line[4:]
+	}
+
+	if isRemoteCommand(line) {
+		i := strings.Index(line, ">")
+		return line[i:]
+	}
+
+	return ""
+}
+
 func getCommandOutput(buffer []string, cmd string) []string {
 	rs := []string{}
 	capture := false
@@ -77,6 +90,8 @@ func options(buffer []string) func(io.WriteCloser) {
 }
 
 func GetCommandOutput(c *cli.Context) error {
+	out := c.Bool("command_only")
+
 	buffer := []string{}
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -95,8 +110,15 @@ func GetCommandOutput(c *cli.Context) error {
 	}
 
 	for _, command := range commands {
-		output := strings.Join(getCommandOutput(buffer, command), "\n")
-		util.Clip(output, "c")
+		var rs string
+
+		if out {
+			rs = stripPrompt(command)
+		} else {
+			rs = strings.Join(getCommandOutput(buffer, command), "\n")
+		}
+
+		util.Clip(rs, "c")
 	}
 
 	return nil
