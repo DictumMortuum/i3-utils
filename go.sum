@@ -15,6 +15,8 @@ github.com/DictumMortuum/gofi v1.1.1 h1:jzdk/eQwAyvVu1q/AgWkgcaNFvi9dL6fdXibrj89
 github.com/DictumMortuum/gofi v1.1.1/go.mod h1:phrV/VOyc/RqD+fl1Fqp76dbk8YFxhfAtazNju1xJyg=
 github.com/DictumMortuum/gofi v1.1.2 h1:yQLeoLnuhomYpqD31tDuO2kHF/JvogBE9oBH8g5pb9k=
 github.com/DictumMortuum/gofi v1.1.2/go.mod h1:phrV/VOyc/RqD+fl1Fqp76dbk8YFxhfAtazNju1xJyg=
+github.com/DictumMortuum/gofi v1.1.4 h1:2q3un+nFUP9bJAgO9lM479oA74OHIs5MaMr3xP8D42Y=
+github.com/DictumMortuum/gofi v1.1.4/go.mod h1:phrV/VOyc/RqD+fl1Fqp76dbk8YFxhfAtazNju1xJyg=
 github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d h1:U+s90UTSYgptZMwQh2aRr3LuazLJIa+Pg3Kc1ylSYVY=
 github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
 github.com/cpuguy83/go-md2man/v2 v2.0.0 h1:EoUDS0afbrsXAZ9YQ9jdu/mZ2sXgT1/2yyNng4PGlyM=

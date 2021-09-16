@@ -9,19 +9,24 @@ import (
 	"strings"
 )
 
-func Bash(cmd string) string {
-	c := exec.Command("bash", "-c", cmd)
-
-	log.Print(cmd)
-
+func Bash(args []string) (string, error) {
 	var out bytes.Buffer
-	c.Stdout = &out
-	err := c.Run()
+
+	path, err := exec.LookPath("bash")
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
-	return out.String()
+	cmd := exec.Command(path, append([]string{"-c"}, args...)...)
+	log.Print(args)
+	cmd.Stdout = &out
+
+	err = cmd.Run()
+	if err != nil {
+		return "", err
+	}
+
+	return out.String(), nil
 }
 
 func Spawn(args string) {
@@ -76,6 +81,22 @@ func Clip(output, sel string) error {
 	}
 
 	return nil
+}
+
+func GetClip(sel string) (string, error) {
+	path, err := exec.LookPath("xsel")
+	if err != nil {
+		return "", nil
+	}
+
+	cmd := exec.Command(path, "-o", sel)
+	out, err := cmd.Output()
+	if err != nil {
+		return "", err
+	}
+
+	result := string(out)
+	return result, nil
 }
 
 func Type(in string) error {

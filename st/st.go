@@ -104,7 +104,7 @@ func GetCommandOutput(c *cli.Context) error {
 		ForceDesktop: true,
 	}
 
-	err, commands := rofi.FromFilter(&opts, options(getPrompts(buffer)))
+	commands, err := rofi.FromFilter(&opts, options(getPrompts(buffer)))
 	if err != nil {
 		return err
 	}

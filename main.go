@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/DictumMortuum/i3-utils/browser"
 	"github.com/DictumMortuum/i3-utils/i3"
 	"github.com/DictumMortuum/i3-utils/servus"
 	"github.com/DictumMortuum/i3-utils/st"
@@ -14,7 +15,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "i3-util"
 	app.Usage = "Utilities for the i3wm"
-	app.Version = "9.4.0"
+	app.Version = "9.5.0"
 
 	app.Commands = []cli.Command{
 		{
@@ -142,6 +143,15 @@ func main() {
 				{
 					Name:   "type",
 					Action: st.Type,
+				},
+			},
+		},
+		{
+			Name: "browser",
+			Subcommands: []cli.Command{
+				{
+					Name:   "jira",
+					Action: browser.GetTickets,
 				},
 			},
 		},

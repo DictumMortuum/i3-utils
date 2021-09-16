@@ -27,7 +27,7 @@ func Type(c *cli.Context) error {
 		ForceDesktop: true,
 	}
 
-	err, commands := rofi.FromFilter(&opts, options(buffer))
+	commands, err := rofi.FromFilter(&opts, options(buffer))
 	if err != nil {
 		return err
 	}
