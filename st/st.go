@@ -118,7 +118,10 @@ func GetCommandOutput(c *cli.Context) error {
 			rs = strings.Join(getCommandOutput(buffer, command), "\n")
 		}
 
-		util.Clip(rs, "c")
+		err := util.Clip(rs, "c")
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

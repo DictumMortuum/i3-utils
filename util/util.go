@@ -43,37 +43,39 @@ func Spawn(args string) {
 	}
 }
 
-func Clip(output, sel string) {
-	var copyCmd *exec.Cmd
-
+func Clip(output, sel string) error {
 	path, err := exec.LookPath("xclip")
 	if err != nil {
-		log.Println("Please install xclip if you want to automatically copy " + sel + "to your clipboard")
-		return
+		return nil
 	}
 
-	copyCmd = exec.Command(path, "-selection", sel)
-	in, err := copyCmd.StdinPipe()
+	cmd := exec.Command(path, "-selection", sel)
+	in, err := cmd.StdinPipe()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
-	err = copyCmd.Start()
+	err = cmd.Start()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	_, err = in.Write([]byte(output))
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	err = in.Close()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
-	copyCmd.Wait()
+	err = cmd.Wait()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func Type(in string) error {
