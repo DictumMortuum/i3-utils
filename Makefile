@@ -6,6 +6,7 @@ version:
 
 build:
 	gofmt -s -w .
+	$(info $(GOFLAGS))
 	go build
 
 install: build
