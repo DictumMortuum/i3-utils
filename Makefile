@@ -1,5 +1,5 @@
 PREFIX=/usr/local
-VERSION=v$(shell awk '/app.Version/ { print $3 }' main.go)
+VERSION=v$(shell awk '/app.Version/ { print $$3 }' main.go)
 
 version:
 	git tag -f $(VERSION)
