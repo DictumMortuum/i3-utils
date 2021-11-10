@@ -1,7 +1,11 @@
 PREFIX=/usr/local
+VERSION=v$(shell awk '/app.Version/ { print $3 }' main.go)
+
+version:
+	git tag -f $(VERSION)
 
 build:
-	gofmt -w .
+	gofmt -s -w .
 	go build
 
 install: build
