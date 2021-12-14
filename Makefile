@@ -4,9 +4,11 @@ VERSION=v$(shell awk '/app.Version/ { print $$3 }' main.go)
 version:
 	git tag -f $(VERSION)
 
-build:
+format:
 	gofmt -s -w .
-	go build
+
+build: format
+	go build -trimpath -buildmode=pie -mod=readonly -modcacherw -ldflags="-s -w"
 
 install: build
 	mkdir -p $(PREFIX)/bin
